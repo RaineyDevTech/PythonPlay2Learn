@@ -5,39 +5,39 @@ import time
 import random
 
 lengths = [ 5, 6, 7, 8]
-word_list = []
-word_length = ""
-words_left = ""
-anagram_list = []
-guess_list = []
-first_word = ""
-game_over = False
-time_limit = 30
-start_time = time.time()
-score = 0
+_word_list = []
+_word_length = ""
+_words_left = ""
+_anagram_list = []
+_guess_list = []
+_first_word = ""
+_game_over = False
+_time_limit = 30
+_start_time = time.time()
+_score = 0
 
 #method to prompt for word lengths
 def config_prompt():
-    global word_length
+    global _word_length
 
     try:
-        word_length  = int(input("Please enter a word length [5, 6, 7, 8]:"))
+        _word_length  = int(input("Please enter a word length [5, 6, 7, 8]:"))
 
     except ValueError:
         print('Integers only please. Try again.')
         config_prompt()
 
-    check_length(word_length)
+    check_length(_word_length)
 
 #method to check selected word length is valid    
 def check_length(wl):
-    global word_length
+    global _word_length
     for length in lengths:
-        if int(length) == int(word_length):
-            return word_length
+        if int(length) == int(_word_length):
+            return _word_length
     try:
-        word_length = int(input("That is not a correct word length. Please try again [5, 6, 7, 8]:"))
-        check_length(word_length)
+        _word_length = int(input("That is not a correct word length. Please try again [5, 6, 7, 8]:"))
+        check_length(_word_length)
 
     except:
         print('Integers only please. Try again.')
@@ -45,70 +45,70 @@ def check_length(wl):
 
 #method to get the word list of chosen word length
 def get_words(wl):
-    global word_list
-    word_list = anagrams[int(wl)]
-    return word_list
+    global _word_list
+    _word_list = anagrams[int(wl)]
+    return _word_list
 
 #method to drive game play
 def play_game(alist):
-    global word_length
-    global words_left
-    global first_word
-    global game_over
-    global time_limit
-    global start_time
-    global anagram_list
+    global _word_length
+    global _words_left
+    global _first_word
+    global _game_over
+    global _time_limit
+    global _start_time
+    global _anagram_list
 
-    anagram_list = alist
+    _anagram_list = alist
 
-    words_left = len(anagram_list)
+    _words_left = len(_anagram_list)
     #time_limit = 30
     #start_time = time.time()
     #loop to guess anagrams
 
-    while not game_over:
-        elapsed_time = time.time() - start_time
+    while not _game_over:
+        elapsed_time = time.time() - _start_time
         print(elapsed_time) 
         #print(words_left)
         
         #get new list if current list is solved
-        if words_left == 0:
+        if _words_left == 0:
             print("this list is solved")
-            get_words(word_length)
-            anagram_list = random.choice(word_list)
-            print(" this list is ", anagram_list)
-            first_word = random.choice(anagram_list)
-            anagram_list.remove(first_word)
-            word_list.remove(anagram_list)
-            play_game(anagram_list)
+            get_words(_word_length)
+            _anagram_list = random.choice(_word_list)
+            print(" this list is ", _anagram_list)
+            _first_word = random.choice(_anagram_list)
+            _anagram_list.remove(_first_word)
+            _word_list.remove(_anagram_list)
+            play_game(_anagram_list)
 
         if elapsed_time > 30:
             game_over = True
             end_game()
             
-        print("The word is: " ,first_word)
-        print("There are ", words_left, " unguessed anagrams")
-        print("You have", time_limit - int(elapsed_time), " seconds left")
+        print("The word is: " ,_first_word)
+        print("There are ", _words_left, " unguessed anagrams")
+        print("You have", _time_limit - int(elapsed_time), " seconds left")
         guess = input("Make a guess: ")
-        check_guess(guess, anagram_list)
+        check_guess(guess, _anagram_list)
 
 
 #method to check if guess is correct
 def check_guess(g, alist):
-    global anagram_list
-    global score
-    global words_left
-    anagram_list= alist
-    print(anagram_list)
-    for word in anagram_list:
+    global _anagram_list
+    global _score
+    global _words_left
+    _anagram_list= alist
+    print(_anagram_list)
+    for word in _anagram_list:
 
         if g.lower() == word:
             print(g, " is an anagram")
-            anagram_list.remove(word)
-            print(anagram_list)
-            words_left = len(anagram_list)
-            print(words_left)
-            score += 1
+            _anagram_list.remove(word)
+            print(_anagram_list)
+            _words_left = len(_anagram_list)
+            print(_words_left)
+            _score += 1
             return
 
     print("wrong you fucking dumbass")
@@ -117,12 +117,12 @@ def check_guess(g, alist):
 
 #method to end game when time expires gives option to play again or quite
 def end_game():
-    global game_over
-    global anagram_list
+    global _game_over
+    global _anagram_list
     
     print("Time is up, Game Over")
-    print("you got ", score, " anagrams for", word_length,"-letter words!")
-    anagram_list = []
+    print("you got ", _score, " anagrams for", _word_length,"-letter words!")
+    _anagram_list = []
     play_again = input("Press enter to play again or any other key to quit: ")
     if play_again == "":
         print("you pressed enter ")
@@ -132,31 +132,30 @@ def end_game():
         exit()
 
     
-    
 #Main method
 def main():
-    global anagram_list
-    global first_word
-    global word_list
-    global word_length
+    global _anagram_list
+    global _first_word
+    global _word_list
+    global _word_length
 
     config_prompt()
 
     #check_length(word_length)
     #print("in main method word length is " ,word_length)
 
-    get_words(word_length)
-    print (word_list)
-    print(len(word_list))
+    get_words(_word_length)
+    print (_word_list)
+    print(len(_word_list))
 
-    anagram_list = random.choice(word_list)
-    print(" this list is ", anagram_list)
-    word_list.remove(anagram_list)
-    print(word_list)
+    _anagram_list = random.choice(_word_list)
+    print(" this list is ", _anagram_list)
+    _word_list.remove(_anagram_list)
+    print(_word_list)
 
-    first_word = random.choice(anagram_list)
-    anagram_list.remove(first_word)
-    play_game(anagram_list)
+    _first_word = random.choice(_anagram_list)
+    _anagram_list.remove(_first_word)
+    play_game(_anagram_list)
 
     
 
