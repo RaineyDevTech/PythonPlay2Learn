@@ -4,11 +4,13 @@ import time
 operations = ["+", "-", "x", "/"]
 _game_over = False
 time_limit = 30
+score = 0
 
 
 def play_game(op, mn):
 
     global game_over
+    global score
 
     print("your operator is ", op)
     print("your max number is ", mn)
@@ -27,11 +29,80 @@ def play_game(op, mn):
             end_game()
 
         if op == "+":
-            answer = int(input(F'{a} + {b} = '))
+            try:
+                answer = int(input(F'{a} + {b} = '))
+
+            except:
+                print("answer must be an integer")
+                continue
+
             #answer = input(a , " + ", b, " = ")
             print("You have ", time_limit - int(elapsed_time), " seconds left")
             if answer == a+b:
                 print(answer, " is correct!")
+                score += 1
+                print("Score : ", score)
+                continue
+            else:
+                print(answer, " is not correct. Try again!")
+                continue
+
+
+        if op == "-":
+            try:
+                answer = int(input(F'{a} - {b} = '))
+            except:
+                print("answer must be an integer!")
+                continue
+            #answer = input(a , " + ", b, " = ")
+            print("You have ", time_limit - int(elapsed_time), " seconds left")
+            if answer == a-b:
+                print(answer, " is correct!")
+                score += 1
+                print("Score : ", score)
+                continue
+            else:
+                print(answer, " is not correct. Try again!")
+                continue
+
+        
+        if op == "x":
+
+            try:
+                answer = int(input(F'{a} x {b} = '))
+            except:
+                print("answer must be an integer!")
+                continue
+            #answer = input(a , " + ", b, " = ")
+            print("You have ", time_limit - int(elapsed_time), " seconds left")
+            if answer == a*b:
+                print(answer, " is correct!")
+                score += 1
+                print("Score : ", score)
+                continue
+            else:
+                print(answer, " is not correct. Try again!")
+                continue
+
+
+        if op == "/":
+            try:
+                print("answer to two decimal places")
+                print(float(round(a/b,2)))
+                answer = float(input(F'{a} / {b} = '))
+            except:
+                print("answer must be a float!")
+                continue
+            #answer = input(a , " + ", b, " = ")
+            print("You have ", time_limit - int(elapsed_time), " seconds left")
+            print("answer is ", a/b)
+            if answer == float(round(a/b,2)):
+                if time_limit - int(elapsed_time) < 1:
+                    print("Sorry you didn't get that one in time")
+                    end_game()
+                print(answer, " is correct!")
+                score += 1
+                print("Score : ", score)
                 continue
             else:
                 print(answer, " is not correct. Try again!")
@@ -66,8 +137,20 @@ def config_prompt():
     config_prompt()
 
 def end_game():
+    global game_over
+    global score
     print("Time is up, Game Over!")
-    exit()
+    print("You answered ", score, " problems!")
+    play_again = input("Press enter to play again or any other key to quit: ")
+    if play_again == "":
+        print("you pressed enter ")
+        game_over = False
+        score = 0
+        config_prompt()
+    else:
+        print("ok bye dickhead")
+        exit()
+    
 
 config_prompt()
 
