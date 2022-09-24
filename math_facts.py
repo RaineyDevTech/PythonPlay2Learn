@@ -4,13 +4,13 @@ import time
 operations = ["+", "-", "x", "/"]
 _game_over = False
 time_limit = 30
-score = 0
+_score = 0
 
-
+#method to drive game play
 def play_game(op, mn):
 
     global game_over
-    global score
+    global _score
 
     print("your operator is ", op)
     print("your max number is ", mn)
@@ -34,14 +34,15 @@ def play_game(op, mn):
 
             except:
                 print("answer must be an integer")
+                print("You have ", time_limit - int(elapsed_time), " seconds left")
                 continue
 
             #answer = input(a , " + ", b, " = ")
             print("You have ", time_limit - int(elapsed_time), " seconds left")
             if answer == a+b:
                 print(answer, " is correct!")
-                score += 1
-                print("Score : ", score)
+                _score += 1
+                print("Score : ", _score)
                 continue
             else:
                 print(answer, " is not correct. Try again!")
@@ -53,13 +54,14 @@ def play_game(op, mn):
                 answer = int(input(F'{a} - {b} = '))
             except:
                 print("answer must be an integer!")
+                print("You have ", time_limit - int(elapsed_time), " seconds left")
                 continue
             #answer = input(a , " + ", b, " = ")
             print("You have ", time_limit - int(elapsed_time), " seconds left")
             if answer == a-b:
                 print(answer, " is correct!")
-                score += 1
-                print("Score : ", score)
+                _score += 1
+                print("Score : ", _score)
                 continue
             else:
                 print(answer, " is not correct. Try again!")
@@ -72,13 +74,14 @@ def play_game(op, mn):
                 answer = int(input(F'{a} x {b} = '))
             except:
                 print("answer must be an integer!")
+                print("You have ", time_limit - int(elapsed_time), " seconds left")
                 continue
-            #answer = input(a , " + ", b, " = ")
+            
             print("You have ", time_limit - int(elapsed_time), " seconds left")
             if answer == a*b:
                 print(answer, " is correct!")
-                score += 1
-                print("Score : ", score)
+                _score += 1
+                print("Score : ", _score)
                 continue
             else:
                 print(answer, " is not correct. Try again!")
@@ -87,22 +90,23 @@ def play_game(op, mn):
 
         if op == "/":
             try:
-                print("answer to two decimal places")
-                print(float(round(a/b,2)))
+                print("Round answers to two decimal places")
+                #print(float(round(a/b,2)))
                 answer = float(input(F'{a} / {b} = '))
             except:
                 print("answer must be a float!")
+                print("You have ", time_limit - int(elapsed_time), " seconds left")
                 continue
-            #answer = input(a , " + ", b, " = ")
+            
             print("You have ", time_limit - int(elapsed_time), " seconds left")
-            print("answer is ", a/b)
+            #print("answer is ", a/b)
             if answer == float(round(a/b,2)):
                 if time_limit - int(elapsed_time) < 1:
                     print("Sorry you didn't get that one in time")
                     end_game()
                 print(answer, " is correct!")
-                score += 1
-                print("Score : ", score)
+                _score += 1
+                print("Score : ", _score)
                 continue
             else:
                 print(answer, " is not correct. Try again!")
@@ -110,13 +114,12 @@ def play_game(op, mn):
 
         
             
-       
+ #method to set game configuration      
 def config_prompt():
-    print(operations)
+    #print(operations)
     operator = input("Please enter an operation [+, -, x, /]: ")
     #print("you chose ", operator)
     for operation in operations:
-        #print("operator is ", operator, " operation is ", operation)
         if operator == operation:
             try:
                 max_number = int(input("Please enter a max number between 1 and 100:" ))
@@ -138,19 +141,18 @@ def config_prompt():
 
 def end_game():
     global game_over
-    global score
+    global _score
     print("Time is up, Game Over!")
-    print("You answered ", score, " problems!")
+    print("You answered ", _score, " problems!")
     play_again = input("Press enter to play again or any other key to quit: ")
     if play_again == "":
         print("you pressed enter ")
         game_over = False
-        score = 0
+        _score = 0
         config_prompt()
     else:
-        print("ok bye dickhead")
+        print("Bye, Thanks for playing!")
         exit()
     
 
 config_prompt()
-

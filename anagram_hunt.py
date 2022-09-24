@@ -1,8 +1,6 @@
-#from tabnanny import check
 from multiprocessing import resource_tracker
 from anagrams import anagrams
 import time
-#import datetime
 import random
 
 lengths = [ 5, 6, 7, 8]
@@ -13,7 +11,7 @@ _anagram_list = []
 _guess_list = []
 _first_word = ""
 _game_over = False
-_time_limit = 30
+_time_limit = 60
 _start_time = ""
 _elapsed_time = ""
 _score = 0
@@ -63,29 +61,22 @@ def play_game(alist):
     global _elapsed_time
 
     _anagram_list = alist
-
     _words_left = len(_anagram_list)
-    #time_limit = 30
-    #start_time = time.time()
-    #loop to guess anagrams
-
+    
     while not _game_over:
         _elapsed_time = time.time() - _start_time
-        print("time elapsed is " , _elapsed_time) 
-        #print(words_left)
         
         #get new list if current list is solved
         if _words_left == 0:
             print("You got all the anagrams for ", _first_word)
             get_words(_word_length)
             _anagram_list = random.choice(_word_list)
-            print(" this list is ", _anagram_list)
+            #print(" this list is ", _anagram_list)
             _first_word = random.choice(_anagram_list)
             _anagram_list.remove(_first_word)
             _word_list.remove(_anagram_list)
             play_game(_anagram_list)
 
-  
         if _elapsed_time > _time_limit:
             _game_over = True
             end_game()
@@ -106,11 +97,8 @@ def check_guess(g, alist):
     global _anagram_list
     global _score
     global _words_left
-    #global _elapsed_time
     global _time_limit
-
     _anagram_list= alist
-    print(_anagram_list)
 
     for guess in _guess_list:
         if g.lower() == guess:
@@ -123,12 +111,11 @@ def check_guess(g, alist):
             print(g, " is an anagram")
             _anagram_list.remove(word)
             _guess_list.append(g)
-            print(_anagram_list)
+            #print(_anagram_list)
             _words_left = len(_anagram_list)
             _score += 1
             return
 
-    print("wrong you fucking dumbass")
     print(g, " is not a valid anagram, please try again")
 
 
@@ -142,11 +129,10 @@ def end_game():
     _anagram_list = []
     play_again = input("Press enter to play again or any other key to quit: ")
     if play_again == "":
-        print("you pressed enter ")
         _game_over = False
         main()
     else:
-        print("ok bye dickhead")
+        print("Bye, Thanks for playing!")
         exit()
 
     
@@ -162,16 +148,12 @@ def main():
 
     config_prompt()
     get_words(_word_length)
-    print (_word_list)
-    print(len(_word_list))
     _anagram_list = random.choice(_word_list)
-    print(" this list is ", _anagram_list)
+    #print(" this list is ", _anagram_list)
     _word_list.remove(_anagram_list)
-    print(_word_list)
     _first_word = random.choice(_anagram_list)
     _anagram_list.remove(_first_word)
     _guess_list.append(_first_word)
-    print("the guess list is ", _guess_list)
     _start_time = time.time()
     _elapsed_time = 0
     _score = 0
